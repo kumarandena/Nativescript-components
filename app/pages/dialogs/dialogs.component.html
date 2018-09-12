@@ -1,0 +1,30 @@
+<ActionBar flat="true" title="Dialogs" backgroundColor="white">
+	<NavigationButton ios:visibility="collapsed" icon="~/images/menu.png" (tap)="onDrawerButtonTap()"></NavigationButton>
+	<ActionItem icon="~/images/menu.png" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
+	</ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+	<ScrollView>
+		<StackLayout>
+			<GridLayout rows="auto,*,auto" columns="*,auto" *ngFor="let dialog of dialogs" class="custom-card">
+				<Label class="card-title" row="0" col="0" [text]="dialog.title"></Label>
+				<Label class="fa" row="0" col="1" [ngClass]="{active : !dialog.showDetails, deactive : dialog.showDetails}" text="{{!dialog.showDetails ? eye : eyeslash}}"
+				 (tap)="dialog.showDetails = !dialog.showDetails"></Label>
+				<Label class="card-summary" row="1" colSpan="2" [text]="dialog.summary" textWrap="true"></Label>
+
+				<StackLayout row="2" colSpan="2" paddingbottom="15" visibility="{{ dialog.showDetails ? 'visible' : 'collapsed' }}">
+
+					<StackLayout marginTop="20" marginBottom="20" class="hr-light"></StackLayout>
+
+					<Button *ngIf="dialog.title == 'Action Dialog'" text="Display Action Dialog" (tap)="displayActionDialog()" class="btn btn-primary btn-active"></Button>
+					<Button  *ngIf="dialog.title == 'Alert Dialog'" text="Display Alert Dialog" (tap)="displayAlertDialog()" class="btn btn-primary btn-active"></Button>
+					<Button  *ngIf="dialog.title == 'Confirm Dialog'" text="Display Confirm Dialog" (tap)="displayConfirmDialog()" class="btn btn-primary btn-active"></Button>
+					<Button  *ngIf="dialog.title == 'Login Dialog'" text="Display Login Dialog" (tap)="displayLoginDialog()" class="btn btn-primary btn-active"></Button>
+					<Button *ngIf="dialog.title == 'Prompt Dialog'" text="Display Prompt Dialog" (tap)="displayPromptDialog()" class="btn btn-primary btn-active"></Button>
+
+				</StackLayout>
+			</GridLayout>
+		</StackLayout>
+	</ScrollView>
+</GridLayout>

@@ -1,0 +1,91 @@
+<ActionBar flat="true" title="Layout" backgroundColor="white">
+<NavigationButton ios:visibility="collapsed" icon="~/images/menu.png" (tap)="onDrawerButtonTap()"></NavigationButton>
+<ActionItem icon="~/images/menu.png" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
+</ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+	<ScrollView>
+		<StackLayout>
+			<GridLayout rows="auto,*,auto" columns="*,auto" *ngFor="let component of layout" class="custom-card">
+				<Label class="card-title" row="0" col="0" [text]="component.title"></Label>
+				<Label class="fa" row="0" col="1" [ngClass]="{active : !component.showDetails, deactive : component.showDetails}" text="{{!component.showDetails ? eye : eyeslash}}"
+				 (tap)="component.showDetails = !component.showDetails"></Label>
+				<Label class="card-summary" row="1" colSpan="2" [text]="component.summary" textWrap="true"></Label>
+
+				<StackLayout row="2" colSpan="2" paddingbottom="15" visibility="{{ component.showDetails ? 'visible' : 'collapsed' }}">
+				
+				<StackLayout marginTop="20" marginBottom="20" class="hr-light"></StackLayout>
+
+					<AbsoluteLayout *ngIf="component.title == 'Absolute Layout'" width="210" height="210" backgroundColor="lightgray">
+						<Label text="10, 10" left="10" top="10" width="90" height="90" backgroundColor="red"></Label>
+						<Label text="110, 10" left="110" top="10" width="90" height="90" backgroundColor="green"></Label>
+						<Label text="110, 110" left="110" top="110" width="90" height="90" backgroundColor="blue"></Label>
+						<Label text="10, 110" left="10" top="110" width="90" height="90" backgroundColor="yellow"></Label>
+					</AbsoluteLayout>
+
+					<DockLayout *ngIf="component.title == 'Dock Layout'" width="210" height="210" backgroundColor="lightgray" stretchLastChild="false">
+						<Label text="left" dock="left" width="60" backgroundColor="red"></Label>
+						<Label text="top" dock="top" height="60" backgroundColor="green"></Label>
+						<Label text="right" dock="right" width="60" backgroundColor="blue"></Label>
+						<Label text="bottom" dock="bottom" height="60" backgroundColor="yellow"></Label>
+					</DockLayout>
+
+					<GridLayout *ngIf="component.title == 'Grid Layout'" columns="60, auto, *" rows="60, auto, *" width="230" height="230" backgroundColor="lightgray">
+						<Label text="Label 1" row="0" col="0" backgroundColor="red"></Label>
+						<Label text="Label 2" row="0" col="1" colSpan="2" backgroundColor="green"></Label>
+						<Label text="Label 3" row="1" col="0" rowSpan="2" backgroundColor="blue"></Label>
+						<Label text="Label 4" row="1" col="1" backgroundColor="yellow"></Label>
+						<Label text="Label 5" row="1" col="2" backgroundColor="orange"></Label>
+						<Label text="Label 6" row="2" col="1" backgroundColor="pink"></Label>
+						<Label text="Label 7" row="2" col="2" backgroundColor="purple"></Label>
+					</GridLayout>
+
+					<FlexboxLayout *ngIf="component.title == 'Flexbox Layout'" height="22" flexDirection="row-reverse">
+						<Label text="1" backgroundColor="#EEEEEE" flexGrow="1"></Label>
+						<Label text="2" backgroundColor="#DDDDDD" flexGrow="2"></Label>
+						<Label text="3" backgroundColor="#CCCCCC" flexGrow="3"></Label>
+						<Label text="4" backgroundColor="#BBBBBB" flexGrow="4"></Label>
+						<Label text="5" backgroundColor="#AAAAAA" flexGrow="5"></Label>
+						<Label text="6" backgroundColor="#999999" flexGrow="6"></Label>
+					</FlexboxLayout>
+
+					<StackLayout *ngIf="component.title == 'Stack Layout'" orientation="vertical" width="210" height="210" backgroundColor="lightgray">
+						<Label text="Label 1" width="70" height="50" backgroundColor="red"></Label>
+						<Label text="Label 2" width="70" height="50" backgroundColor="green"></Label>
+						<Label text="Label 3" width="70" height="50" backgroundColor="blue"></Label>
+						<Label text="Label 4" width="70" height="50" backgroundColor="yellow"></Label>
+					</StackLayout>
+
+					<WrapLayout *ngIf="component.title == 'Wrap Layout'" orientation="horizontal" width="210" height="210" backgroundColor="lightgray">
+						<Label text="Label 1" width="70" height="70" backgroundColor="red"></Label>
+						<Label text="Label 2" width="70" height="70" backgroundColor="green"></Label>
+						<Label text="Label 3" width="70" height="70" backgroundColor="blue"></Label>
+						<Label text="Label 4" width="70" height="70" backgroundColor="yellow"></Label>
+					</WrapLayout>
+
+					<ScrollView *ngIf="component.title == 'Scroll View'" orientation="horizontal">
+						<GridLayout class="m-15" columns="auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto">
+							<Label width="60" height="50" class="h3 m-15" col="0" text="Title 1"></Label>
+							<Label width="60" height="50" class="h3 m-15" col="1" text="Title 2"></Label>
+							<Label width="60" height="50" class="h3 m-15" col="2" text="Title 3"></Label>
+							<Label width="60" height="50" class="h3 m-15" col="3" text="Title 4"></Label>
+							<Label width="60" height="50" class="h3 m-15" col="4" text="Title 5"></Label>
+							<Label width="60" height="50" class="h3 m-15" col="5" text="Title 6"></Label>
+							<Label width="60" height="50" class="h3 m-15" col="6" text="Title 7"></Label>
+							<Label width="60" height="50" class="h3 m-15" col="7" text="Title 8"></Label>
+							<Label width="60" height="50" class="h3 m-15" col="8" text="Title 9"></Label>
+							<Label width="60" height="50" class="h3 m-15" col="9" text="Title 10"></Label>
+							<Label width="60" height="50" class="h3 m-15" col="10" text="Title 11"></Label>
+							<Label width="60" height="50" class="h3 m-15" col="11" text="Title 12"></Label>
+							<Label width="60" height="50" class="h3 m-15" col="12" text="Title 13"></Label>
+							<Label width="60" height="50" class="h3 m-15" col="13" text="Title 14"></Label>
+							<Label width="60" height="50" class="h3 m-15" col="14" text="Title 15"></Label>
+						</GridLayout>
+					</ScrollView>
+
+				</StackLayout>
+			</GridLayout>
+		</StackLayout>
+	</ScrollView>
+</GridLayout>

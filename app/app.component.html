@@ -1,0 +1,26 @@
+<RadSideDrawer drawerTransition="PushTransition">
+	<GridLayout tkDrawerContent rows="auto,*,auto">
+		<StackLayout verticalAlignment="center" row="0" class="sidedrawer-header">
+			<Label class="app-title" fontSize="20" text="The Greatest Kitchen Sink"></Label>
+			<GridLayout columns="auto,auto,auto">
+				<Image col="0" src="~/images/nativescriptlogo.png" width="70" height="80"></Image>
+				<Label col="1" fontSize="18" text="NativeScript" class="padding-cls"></Label> 
+				<Image col="2" src="~/images/angular.png" class="nsng-header"></Image>
+				<Image></Image>
+			</GridLayout>
+		</StackLayout>
+		<ScrollView row="1">
+			<StackLayout class="sidedrawer-content">
+				<GridLayout *ngFor="let menu of sidenavItems" columns="auto, *" class="sidedrawer-list-item" (tap)="onNavItemTap(menu.url)">
+					<Label col="0" [text]="menu.icon" class="fa"></Label>
+					<Label col="1" [text]=" menu.name " class="p-r-10"></Label>
+				</GridLayout>
+			</StackLayout>
+		</ScrollView>
+		<GridLayout row="2" class="sidedrawer-footer">
+			<Label fontSize="18" text=" Made with ❤️ by @kumaran"></Label>
+		</GridLayout>
+	</GridLayout>
+
+	<page-router-outlet tkMainContent class="page page-content"></page-router-outlet>
+</RadSideDrawer>

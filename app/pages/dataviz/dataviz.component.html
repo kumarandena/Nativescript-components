@@ -1,0 +1,149 @@
+<ActionBar flat="true" title="Data Viz Series" backgroundColor="white">
+	<NavigationButton ios:visibility="collapsed" icon="~/images/menu.png" (tap)="onDrawerButtonTap()"></NavigationButton>
+	<ActionItem icon="~/images/menu.png" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
+	</ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+	<ScrollView>
+		<StackLayout>
+			<GridLayout rows="auto,*,auto, auto" *ngFor="let component of dataviz" class="custom-card">
+				<Label class="card-title" row="0" [text]="component.title"></Label>
+				<Label class="card-summary" row="1" [text]="component.summary" textWrap="true"></Label>
+				<Button row="2" text="{{component.showDetails ? 'Hide '+ component.title : 'Show '+component.title }}" (tap)="component.showDetails = !component.showDetails"></Button>
+				<StackLayout row="3" visibility="{{ component.showDetails ? 'visible' : 'collapsed' }}">
+					<GridLayout *ngIf="component.title == 'Area Chart'" rows="auto, *" height="1000px">
+						<Label row="0" text="Monthly sales revenue, 2017" class="chart-example-tytle-style" textWrap="true"></Label>
+						<RadCartesianChart row="1">
+							<CategoricalAxis lineColor="#b0b0b0" lineThickness="1" tkCartesianHorizontalAxis></CategoricalAxis>
+							<LinearAxis lineColor="#b0b0b0" lineThickness="1" tkCartesianVerticalAxis></LinearAxis>
+							<AreaSeries tkCartesianSeries seriesName="Area" categoryProperty="Category" [items]="areaSource" stackMode="Stack" valueProperty="Amount"
+							 selectionMode="Series"></AreaSeries>
+							<AreaSeries tkCartesianSeries seriesName="Area" categoryProperty="Category" [items]="areaSource2" stackMode="Stack" valueProperty="Amount"
+							 selectionMode="Series"></AreaSeries>
+							<RadCartesianChartGrid tkCartesianGrid horizontalLinesVisible="true" verticalLinesVisible="false" verticalStripLinesVisible="false"
+							 horizontalStripLinesVisible="false" horizontalStrokeColor="#e5e5e5"></RadCartesianChartGrid>
+							<Palette tkCartesianPalette seriesName="Area">
+								<PaletteEntry tkCartesianPaletteEntry android:fillColor="#b2efe6" ios:fillColor="#7fe5faf6" strokeColor="#08caab" strokeWidth="2"></PaletteEntry>
+								<PaletteEntry tkCartesianPaletteEntry android:fillColor="#b2d2d1" ios:fillColor="#7fe5f0f0" strokeColor="#026968" strokeWidth="2"></PaletteEntry>
+							</Palette>
+							<Palette tkCartesianPalette seriesName="Area" seriesState="Selected">
+								<PaletteEntry tkCartesianPaletteEntry android:fillColor="#b2efe6" ios:fillColor="#7fe5faf6" strokeColor="#026555" strokeWidth="2"></PaletteEntry>
+								<PaletteEntry tkCartesianPaletteEntry android:fillColor="#b2d2d1" ios:fillColor="#7fe5f0f0" strokeColor="#003434" strokeWidth="2"></PaletteEntry>
+							</Palette>
+						</RadCartesianChart>
+					</GridLayout>
+
+					<GridLayout *ngIf="component.title == 'Bar Chart'" rows="*" height="1000px">
+						<RadCartesianChart row="0">
+							<CategoricalAxis tkCartesianHorizontalAxis></CategoricalAxis>
+							<LinearAxis tkCartesianVerticalAxis></LinearAxis>
+							<BarSeries tkCartesianSeries [items]="categoricalSource" categoryProperty="Country" valueProperty="Amount"></BarSeries>
+						</RadCartesianChart>
+					</GridLayout>
+
+					<GridLayout *ngIf="component.title == 'Line Chart'" rows="*" height="1000px">
+						<RadCartesianChart row="0">
+							<CategoricalAxis tkCartesianHorizontalAxis></CategoricalAxis>
+							<LinearAxis tkCartesianVerticalAxis></LinearAxis>
+							<LineSeries tkCartesianSeries [items]="categoricalSource" categoryProperty="Country" valueProperty="Amount"></LineSeries>
+						</RadCartesianChart>
+					</GridLayout>
+
+					<GridLayout *ngIf="component.title == 'Bubble Chart'" rows="*" height="1000px">
+						<RadCartesianChart row="0">
+							<CategoricalAxis tkCartesianHorizontalAxis verticalLocation="Bottom" labelFitMode="Rotate" labelRotationAngle="1.2"></CategoricalAxis>
+							<LinearAxis tkCartesianVerticalAxis></LinearAxis>
+
+							<BubbleSeries tkCartesianSeries [items]="highDataModel" bubbleScale="5" categoryProperty="Year" valueProperty="Amount" bubbleSizeProperty="Impact"></BubbleSeries>
+							<BubbleSeries tkCartesianSeries [items]="middleDataModel" bubbleScale="5" categoryProperty="Year" valueProperty="Amount"
+							 bubbleSizeProperty="Impact"></BubbleSeries>
+							<BubbleSeries tkCartesianSeries [items]="lowDataModel" bubbleScale="5" categoryProperty="Year" valueProperty="Amount" bubbleSizeProperty="Impact"></BubbleSeries>
+						</RadCartesianChart>
+					</GridLayout>
+
+					<GridLayout *ngIf="component.title == 'CandleStick Chart'" rows="*" height="1000px">
+						<RadCartesianChart row="0">
+							<CandlestickSeries tkCartesianSeries categoryProperty="Date" openPropertyName="Open" highPropertyName="High" lowPropertyName="Low"
+							 closePropertyName="Close" [items]="financialSourceItems"></CandlestickSeries>
+
+							<DateTimeCategoricalAxis tkCartesianHorizontalAxis dateFormat="yyyy-MM-dd" verticalLocation="Bottom"></DateTimeCategoricalAxis>
+							<LinearAxis tkCartesianVerticalAxis></LinearAxis>
+						</RadCartesianChart>
+					</GridLayout>
+
+					<GridLayout *ngIf="component.title == 'OHLC Chart'" rows="*" height="1000px">
+						<RadCartesianChart row="0">
+							<OhlcSeries tkCartesianSeries categoryProperty="Date" openPropertyName="Open" highPropertyName="High" lowPropertyName="Low"
+							 closePropertyName="Close" [items]="financialSourceItems"></OhlcSeries>
+
+							<DateTimeCategoricalAxis tkCartesianHorizontalAxis dateFormat="yyyy-MM-dd" verticalLocation="Bottom"></DateTimeCategoricalAxis>
+							<LinearAxis tkCartesianVerticalAxis></LinearAxis>
+						</RadCartesianChart>
+					</GridLayout>
+
+					<GridLayout *ngIf="component.title == 'Pie Chart'" rows="*" height="1000px">
+						<RadPieChart allowAnimation="true" row="0">
+							<PieSeries tkPieSeries selectionMode="DataPoint" expandRadius="0.4" outerRadiusFactor="0.7" [items]="pieSource" valueProperty="Amount"
+							 legendLabel="Brand"></PieSeries>
+							<RadLegendView tkPieLegend position="Right" title="Brands" offsetOrigin="TopRight" width="110" enableSelection="true"></RadLegendView>
+						</RadPieChart>
+					</GridLayout>
+
+					<GridLayout *ngIf="component.title == 'Donut Chart'" rows="*" height="1000px">
+						<RadPieChart allowAnimation="true" row="0">
+							<DonutSeries tkPieSeries selectionMode="DataPoint" outerRadiusFactor="0.9" expandRadius="0.4" outerRadiusFactor="0.7" innerRadiusFactor="0.4"
+							 [items]="pieSource" valueProperty="Amount" legendLabel="Brand"></DonutSeries>
+							<RadLegendView tkPieLegend position="Right" title="Brands" offsetOrigin="TopRight" width="110" enableSelection="true"></RadLegendView>
+						</RadPieChart>
+					</GridLayout>
+
+					<GridLayout *ngIf="component.title == 'Scatter Chart'" rows="*" height="1000px">
+						<RadCartesianChart row="0">
+							<LinearAxis tkCartesianHorizontalAxis></LinearAxis>
+							<LinearAxis tkCartesianVerticalAxis></LinearAxis>
+
+							<ScatterSeries tkCartesianSeries [items]="scatterSource" xProperty="Age" yProperty="Salary"></ScatterSeries>
+							<ScatterSeries tkCartesianSeries [items]="scatterSource" xProperty="Age" yProperty="Spendings"></ScatterSeries>
+							<ScatterSeries tkCartesianSeries [items]="scatterSource" xProperty="Age" yProperty="Savings"></ScatterSeries>
+						</RadCartesianChart>
+					</GridLayout>
+
+					<GridLayout *ngIf="component.title == 'Spline Chart'" rows="*" height="1000px">
+						<RadCartesianChart row="0">
+							<SplineSeries tkCartesianSeries [items]="categoricalSource" categoryProperty="Country" valueProperty="Amount"></SplineSeries>
+
+							<CategoricalAxis tkCartesianHorizontalAxis></CategoricalAxis>
+							<LinearAxis tkCartesianVerticalAxis></LinearAxis>
+						</RadCartesianChart>
+					</GridLayout>
+
+					<StackLayout *ngIf="component.title == 'Gauge'" height="500px">
+						<RadRadialGauge>
+							<RadialScale tkRadialGaugeScales minimum="0" maximum="6" radius="0.90">
+								<ScaleStyle tkRadialScaleStyle majorTicksCount="7" minorTicksCount="9" lineThickness="0" labelsCount="7" ticksOffset="0"></ScaleStyle>
+								<RadialBarIndicator tkRadialScaleIndicators minimum="0" maximum="1.2" location="0.97">
+									<BarIndicatorStyle tkRadialBarIndicatorStyle fillColor="#dddddd"></BarIndicatorStyle>
+								</RadialBarIndicator>
+								<RadialBarIndicator tkRadialScaleIndicators minimum="1.2" maximum="2.4" location="0.97">
+									<BarIndicatorStyle tkRadialBarIndicatorStyle fillColor="#9DCA56"></BarIndicatorStyle>
+								</RadialBarIndicator>
+								<RadialBarIndicator tkRadialScaleIndicators minimum="2.4" maximum="3.6" location="0.97">
+									<BarIndicatorStyle tkRadialBarIndicatorStyle fillColor="#F0C44D"></BarIndicatorStyle>
+								</RadialBarIndicator>
+								<RadialBarIndicator tkRadialScaleIndicators minimum="3.6" maximum="4.8" location="0.97">
+									<BarIndicatorStyle tkRadialBarIndicatorStyle fillColor="#E27633"></BarIndicatorStyle>
+								</RadialBarIndicator>
+								<RadialBarIndicator tkRadialScaleIndicators minimum="4.8" maximum="6" location="0.97">
+									<BarIndicatorStyle tkRadialBarIndicatorStyle fillColor="#A7010E"></BarIndicatorStyle>
+								</RadialBarIndicator>
+								<RadialNeedle tkRadialScaleIndicators [value]="gaugeValue"></RadialNeedle>
+							</RadialScale>
+						</RadRadialGauge>
+					</StackLayout>
+
+				</StackLayout>
+			</GridLayout>
+		</StackLayout>
+	</ScrollView>
+</GridLayout>

@@ -1,0 +1,52 @@
+<ActionBar flat="true" title="Data Entry" backgroundColor="white">
+	<NavigationButton ios:visibility="collapsed" icon="~/images/menu.png" (tap)="onDrawerButtonTap()"></NavigationButton>
+	<ActionItem icon="~/images/menu.png" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
+	</ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+	<ScrollView>
+		<StackLayout>
+			<GridLayout rows="auto,*,auto,auto" *ngFor="let component of dataentry" class="custom-card">
+				<Label class="card-title" row="0" [text]="component.title"></Label>
+				<Label class="card-summary" row="1" [text]="component.summary" textWrap="true"></Label>
+
+				<Button row="2" text="{{component.showDetails ? 'Hide '+ component.title : 'Show '+component.title }}" (tap)="component.showDetails = !component.showDetails"></Button>
+				<StackLayout row="3" visibility="{{ component.showDetails ? 'visible' : 'collapsed' }}">
+
+					<TextField *ngIf="component.title == 'Text Field'" [(ngModel)]="textFieldValue" hint="Enter text..."></TextField>
+
+					<StackLayout *ngIf="component.title == 'AutoComplete Text View'" backgroundColor="#66cdaa" padding="5">
+						<Label text="Select country"></Label>
+						<RadAutoCompleteTextView [items]="autocompleteCountries" suggestMode="Suggest" displayMode="Tokens">
+							<SuggestionView tkAutoCompleteSuggestionView>
+								<ng-template tkSuggestionItemTemplate let-item="item">
+									<StackLayout orientation="vertical" padding="10">
+										<Label [text]="item.text"></Label>
+									</StackLayout>
+								</ng-template>
+							</SuggestionView>
+						</RadAutoCompleteTextView>
+					</StackLayout>
+
+					<TimePicker *ngIf="component.title == 'Time Picker'" [hour]="currentHour" [minute]="currentMinute" verticalAlignment="center"></TimePicker>
+
+					<ListPicker *ngIf="component.title == 'List Picker'" [items]="listPickerCountries" [(ngModel)]="selectedListPickerIndex"></ListPicker>
+
+					<DatePicker *ngIf="component.title == 'Date Picker'" [year]="currentYear" [month]="currentMonth" [day]="currentDay" minDate="1970-01-01" maxDate="2100-12-31"></DatePicker>
+
+					<StackLayout *ngIf="component.title == 'Data Form'">
+						<RadDataForm [source]="album">
+							<TKEntityProperty tkDataFormProperty name="albumName" displayName="Name of Album" index="0"></TKEntityProperty>
+							<TKEntityProperty tkDataFormProperty name="bandName" displayName="Name of Band" index="1"></TKEntityProperty>
+							<TKEntityProperty tkDataFormProperty name="year" displayName="Release Year" index="2"></TKEntityProperty>
+							<TKEntityProperty tkDataFormProperty name="myRating" displayName="My Rating" index="3"></TKEntityProperty>
+							<TKEntityProperty tkDataFormProperty name="owned" displayName="Do I Own This?" index="4"></TKEntityProperty>
+						</RadDataForm>
+					</StackLayout>
+
+				</StackLayout>
+			</GridLayout>
+		</StackLayout>
+	</ScrollView>
+</GridLayout>

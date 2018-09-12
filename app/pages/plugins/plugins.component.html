@@ -1,0 +1,50 @@
+<ActionBar flat="true" title="Plugins" backgroundColor="white">
+	<NavigationButton ios:visibility="collapsed" icon="~/images/menu.png" (tap)="onDrawerButtonTap()"></NavigationButton>
+	<ActionItem icon="~/images/menu.png" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
+	</ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+	<ScrollView>
+		<StackLayout>
+			<GridLayout rows="auto,*,auto" columns="*,auto" *ngFor="let plugin of plugins" class="custom-card">
+				<Label class="card-title" row="0" col="0" [text]="plugin.title"></Label>
+				<Label class="fa" row="0" col="1" [ngClass]="{active : !plugin.showDetails, deactive : plugin.showDetails}" text="{{!plugin.showDetails ? eye : eyeslash}}"
+				 (tap)="plugin.showDetails = !plugin.showDetails"></Label>
+				<Label class="card-summary" row="1" colSpan="2" [text]="plugin.summary" textWrap="true"></Label>
+
+				<StackLayout row="2" colSpan="2" paddingbottom="15" visibility="{{ plugin.showDetails ? 'visible' : 'collapsed' }}">
+
+					<StackLayout marginTop="20" marginBottom="20" class="hr-light"></StackLayout>
+
+					<StackLayout *ngIf="plugin.title == 'NativeScript Bluetooth Plugin'">
+						<GridLayout rows="auto" columns="*,auto">
+							<Button row="0" col="0" text="Scan for Devices" (tap)="onScanTap()"></Button>
+							<Label row="0" col="1" text="{{deleteicon}}" class="fa del-icon" (tap)="onDeleteTap()"></Label>
+						</GridLayout>
+
+						<StackLayout *ngFor="let device of devices">
+							<Label text="UUID : {{device.UUID}}"></Label>
+							<Label text="NAME : {{device.name}}"></Label>
+							<Label text="RSSI : {{device.RSSI}}"></Label>
+							<Label text="STATE : {{device.state}}"></Label>
+						</StackLayout>
+					</StackLayout>
+
+					<StackLayout *ngIf="plugin.title == 'NativeScript Toast Plugin'">
+						<Button text="Short Time Toast" (tap)="onToastTap()"></Button>
+						<Button text="Long Time Toast" (tap)="onLongToastTap()"></Button>
+					</StackLayout>
+
+					<StackLayout *ngIf="plugin.title == 'NativeScript Camera Plugin'">
+						<GridLayout rows="auto" columns="*,auto">
+							<Button row="0" col="0" text="Take a Picture! 📷" (tap)="takePicture()"></Button>
+							<Label row="0" col="1" text="{{deleteicon}}" class="fa del-icon" (tap)="pictureFromCamera != null ? deletePicture() : ''"></Label>
+						</GridLayout>
+						<Image [src]="pictureFromCamera"></Image>
+					</StackLayout>
+				</StackLayout>
+			</GridLayout>
+		</StackLayout>
+	</ScrollView>
+</GridLayout>

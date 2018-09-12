@@ -1,0 +1,23 @@
+<GridLayout class="page page-content" tkMainContent>
+	<ScrollView>
+		<StackLayout class="home-page">
+			<Label class="fa close-icon" text="&#xf05c;" (tap)="goBack()"></Label>
+			<StackLayout class="about-header">
+				<Label class="app-title" fontSize="20" text="The Greatest Kitchen Sink App"></Label>
+				<GridLayout horizontalAlignment="center" columns="auto,auto,auto">
+					<Image col="0" src="~/images/nativescriptlogo.png" width="70" height="80"></Image>
+					<Label col="1" fontSize="18" text="NativeScript" class="padding-cls"></Label>
+					<Image col="2" src="~/images/angular.png" class="nsng-header"></Image>
+				</GridLayout>
+			</StackLayout>
+
+			<GridLayout rows="*" height="900px">
+				<RadPieChart allowAnimation="true" row="0">
+					<PieSeries tkPieSeries selectionMode="DataPoint" expandRadius="0.4" outerRadiusFactor="0.7" [items]="pieSource" valueProperty="Amount"
+					 legendLabel="Component"></PieSeries>
+					<RadLegendView tkPieLegend position="Right" title="Components" offsetOrigin="TopRight" width="110" enableSelection="true"></RadLegendView>
+				</RadPieChart>
+			</GridLayout>
+		</StackLayout>
+	</ScrollView>
+</GridLayout>

@@ -1,0 +1,37 @@
+<ActionBar flat="true" title="Bars" backgroundColor="white">
+<NavigationButton ios:visibility="collapsed" icon="~/images/menu.png" (tap)="onDrawerButtonTap()"></NavigationButton>
+<ActionItem icon="~/images/menu.png" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
+</ActionItem>
+
+	<ActionItem visibility="{{ !defautactionbar ? 'visible' : 'collapsed' }}" text="left item" ios.position="left"></ActionItem>
+	<ActionItem visibility="{{ !defautactionbar ? 'visible' : 'collapsed' }}" text="Item" ios.position="right" android.position="popup"></ActionItem>
+	<ActionItem visibility="{{ !defautactionbar ? 'visible' : 'collapsed' }}">
+		<Label class="m-5" text="Custom item" color="#8C489F"></Label>
+	</ActionItem>
+	<ActionItem visibility="{{ !defautactionbar ? 'visible' : 'collapsed' }}" ios.systemIcon="12" android.systemIcon="ic_menu_search"></ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+	<ScrollView>
+		<StackLayout>
+			<GridLayout rows="auto,*,auto" columns="*,auto" *ngFor="let component of bars" class="custom-card">
+				<Label class="card-title" row="0" col="0" [text]="component.title"></Label>
+				<Label class="fa" row="0" col="1" [ngClass]="{active : !component.showDetails, deactive : component.showDetails}" text="{{!component.showDetails ? eye : eyeslash}}"
+				 (tap)="component.showDetails = !component.showDetails"></Label>
+				<Label class="card-summary" row="1" colSpan="2" [text]="component.summary" textWrap="true"></Label>
+
+				<StackLayout row="2" colSpan="2" paddingbottom="15" visibility="{{ component.showDetails ? 'visible' : 'collapsed' }}">
+
+					<StackLayout marginTop="20" marginBottom="20" class="hr-light"></StackLayout>
+
+					<Button *ngIf="component.title == 'Action Bar'" text="{{defautactionbar ? 'Change to custom' : 'Change to default' }}" (tap)="defautactionbar = !defautactionbar"></Button>
+
+					<SegmentedBar *ngIf="component.title == 'Segmented Bar'" [items]="segmentedBarItems" [(ngModel)]="selectedBarIndex"></SegmentedBar>
+
+					<SearchBar *ngIf="component.title == 'Search Bar'" hint="Search hint" [text]="searchPhrase" (submit)="onSearchSubmit($event)"></SearchBar>
+
+				</StackLayout>
+			</GridLayout>
+		</StackLayout>
+	</ScrollView>
+</GridLayout>

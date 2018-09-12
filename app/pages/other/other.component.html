@@ -1,0 +1,49 @@
+<ActionBar flat="true" title="Other" backgroundColor="white">
+<NavigationButton ios:visibility="collapsed" icon="~/images/menu.png" (tap)="onDrawerButtonTap()"></NavigationButton>
+<ActionItem icon="~/images/menu.png" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
+</ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+	<ScrollView>
+		<StackLayout>
+			<GridLayout rows="auto,*,auto" columns="*,auto" *ngFor="let component of others" class="custom-card">
+				<Label class="card-title" row="0" col="0" [text]="component.title"></Label>
+				<Label class="fa" row="0" col="1" [ngClass]="{active : !component.showDetails, deactive : component.showDetails}" text="{{!component.showDetails ? eye : eyeslash}}"
+				 (tap)="component.showDetails = !component.showDetails"></Label>
+				<Label class="card-summary" row="1" colSpan="2" [text]="component.summary" textWrap="true"></Label>
+
+				<StackLayout row="2" colSpan="2" paddingbottom="15" visibility="{{ component.showDetails ? 'visible' : 'collapsed' }}">
+
+					<StackLayout marginTop="20" marginBottom="20" class="hr-light"></StackLayout>
+
+					<RadCalendar *ngIf="component.title == 'Calendar'" height="1000px"></RadCalendar>
+
+					<HtmlView *ngIf="component.title == 'Html View'" [html]="htmlString"></HtmlView>
+
+					<WebView *ngIf="component.title == 'Web View'" height="1200px" src="https://www.nativescript.org"></WebView>
+
+					<StackLayout *ngIf="component.title == 'Location'">
+						<Button text="Show location" (tap)="enableLocationServices()" *ngIf="!currentGeoLocation"></Button>
+						<StackLayout *ngIf="currentGeoLocation">
+							<Label text="Latitude: {{ currentGeoLocation.latitude }}"></Label>
+							<Label text="Longitude: {{ currentGeoLocation.longitude }}"></Label>
+							<Label text="Altitude: {{ currentGeoLocation.altitude }}"></Label>
+							<Label text="Direction: {{ currentGeoLocation.direction }}"></Label>
+						</StackLayout>
+					</StackLayout>
+
+					<StackLayout *ngIf="component.title == 'Accelerometer'">
+						<Button text="Start Accelerometer" (tap)="startAccelerometer()" *ngIf="!accelerometerValues"></Button>
+						<StackLayout *ngIf="accelerometerValues">
+							<Label text="X: {{ accelerometerValues.x }}"></Label>
+							<Label text="Y: {{ accelerometerValues.y }}"></Label>
+							<Label text="Z: {{ accelerometerValues.z }}"></Label>
+						</StackLayout>
+					</StackLayout>
+
+				</StackLayout>
+			</GridLayout>
+		</StackLayout>
+	</ScrollView>
+</GridLayout>

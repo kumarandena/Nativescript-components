@@ -1,0 +1,23 @@
+<ActionBar flat="true" title="Home" class="custom-actionbar">
+		<NavigationButton ios:visibility="collapsed" icon="~/images/menu.png" (tap)="onDrawerButtonTap()"></NavigationButton>
+		<ActionItem icon="~/images/menu.png" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
+		</ActionItem>
+		<ActionItem ios.position="right" [nsRouterLink]="['./about']">
+			<Label class="fa about-icon" text="&#xf05a;"></Label>
+		</ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content" tkMainContent>
+	<ScrollView>
+		<StackLayout class="home-page">
+			<StackLayout >
+				<Label class="home-greetings-lbl" text="Welcome Buddy!"></Label>
+				<Label class="home-welcome-lbl" [text]="contents.welcome" textWrap="true"></Label>
+				<Label class="home-message-lbl" [text]="contents.message" textWrap="true"></Label>
+			</StackLayout>
+			<StackLayout *ngFor="let component of components" class="components-list">
+				<Button [text]="component.category" class="category-btn" (tap)="onNavItemTap(component.url)"></Button>
+			</StackLayout>
+		</StackLayout>
+	</ScrollView>
+</GridLayout>

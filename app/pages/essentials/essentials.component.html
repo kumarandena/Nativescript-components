@@ -1,0 +1,58 @@
+<ActionBar flat="true" title="Essentials" backgroundColor="white">
+	<NavigationButton ios:visibility="collapsed" icon="~/images/menu.png" (tap)="onDrawerButtonTap()"></NavigationButton>
+	<ActionItem icon="~/images/menu.png" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
+	</ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+	<ScrollView>
+		<StackLayout>
+
+			<GridLayout rows="auto,*,auto" columns="*,auto" *ngFor="let component of essentials" class="custom-card">
+				<Label class="card-title" row="0" col="0" [text]="component.title"></Label>
+				<Label class="fa" row="0" col="1" [ngClass]="{active : !component.showDetails, deactive : component.showDetails}" text="{{!component.showDetails ? eye : eyeslash}}"
+				 (tap)="component.showDetails = !component.showDetails"></Label>
+				<Label class="card-summary" row="1" colSpan="2" [text]="component.summary" textWrap="true"></Label>
+			
+				<StackLayout row="2" colSpan="2" paddingbottom="15" visibility="{{ component.showDetails ? 'visible' : 'collapsed' }}">
+			
+					<StackLayout marginTop="20" marginBottom="20" class="hr-light"></StackLayout>
+
+					<Button *ngIf="component.title == 'Button'" text="Button" (tap)="onButtonTap()"></Button>
+
+					<Label *ngIf="component.title == 'Label'" text="Label"></Label>
+
+					<Image *ngIf="component.title == 'Image'" src="https://play.nativescript.org/dist/assets/img/NativeScript_logo.png"></Image>
+
+					<Slider *ngIf="component.title == 'Slider'" value="80"></Slider>
+
+					<Switch *ngIf="component.title == 'Switch'" checked="true"></Switch>
+
+					<TextView *ngIf="component.title == 'Text view'" editable="false">
+						<FormattedString>
+							<Span text="This is a text view that uses attributed text. You can use text attributes such as "></Span>
+							<Span text="bold, " fontWeight="Bold"></Span>
+							<Span text="italic " fontStyle="Italic"></Span>
+							<Span text="and "></Span>
+							<Span text="underline." textDecoration="Underline"></Span>
+						</FormattedString>
+					</TextView>
+
+					<ListView *ngIf="component.title == 'List View'" class="list-group" [items]="countries" (itemTap)="onItemTap($event)" style="height:1250px">
+						<ng-template let-country="item">
+							<FlexboxLayout flexDirection="row" class="list-group-item">
+								<Image [src]="country.imageSrc" class="thumb img-circle"></Image>
+								<Label [text]="country.name" class="list-group-item-heading" verticalAlignment="center" style="width: 60%"></Label>
+							</FlexboxLayout>
+						</ng-template>
+					</ListView>
+
+					<Progress *ngIf="component.title == 'Progress'" [value]="progressValue" maxValue="100"></Progress>
+
+					<ActivityIndicator *ngIf="component.title == 'Activity Indicator'" [busy]="isBusy" class="activity-indicator"></ActivityIndicator>
+
+				</StackLayout>
+			</GridLayout>
+		</StackLayout>
+	</ScrollView>
+</GridLayout>

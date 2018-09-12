@@ -1,0 +1,33 @@
+<ActionBar flat="true" title="Navigation" backgroundColor="white">
+<NavigationButton ios:visibility="collapsed" icon="~/images/menu.png" (tap)="onDrawerButtonTap()"></NavigationButton>
+<ActionItem icon="~/images/menu.png" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
+</ActionItem>
+</ActionBar>
+
+<GridLayout class="page page-content">
+	<ScrollView>
+		<StackLayout>
+			<GridLayout rows="auto,*,auto" columns="*,auto" *ngFor="let component of navigation" class="custom-card">
+				<Label class="card-title" row="0" col="0" [text]="component.title"></Label>
+				<Label class="fa" row="0" col="1" [ngClass]="{active : !component.showDetails, deactive : component.showDetails}" text="{{!component.showDetails ? eye : eyeslash}}"
+				 (tap)="component.showDetails = !component.showDetails"></Label>
+				<Label class="card-summary" row="1" colSpan="2" [text]="component.summary" textWrap="true"></Label>
+
+				<StackLayout row="2" colSpan="2" paddingbottom="15" visibility="{{ component.showDetails ? 'visible' : 'collapsed' }}">
+
+					<StackLayout *ngIf="component.title != 'Tab View'" marginTop="20" marginBottom="20" class="hr-light"></StackLayout>
+
+					<Button *ngIf="component.title == 'Side Drawer'" text="Open Sidedrawer" (tap)="onDrawerButtonTap()"></Button>
+					<TabView *ngIf="component.title == 'Tab View'" marginTop="20" height="300px">
+						<StackLayout *tabItem="{title: 'Tab 1'}">
+							<Label text="Label in Tab 1"></Label>
+						</StackLayout>
+						<StackLayout *tabItem="{title: 'Tab 2'}">
+							<Label text="Label in Tab 2"></Label>
+						</StackLayout>
+					</TabView>
+				</StackLayout>
+			</GridLayout>
+		</StackLayout>
+	</ScrollView>
+</GridLayout>
